@@ -33,7 +33,7 @@ router.route('/user/data').post(function (req, res) {
     });
 });
 //find user data by id using GET
-router.route('/student/data/:id').get(function (req, res) {
+router.route('/user/data/:id').get(function (req, res) {
     user.findByid(req.param.id, function (err, data) {
         if (err) {
             res.send(err);

@@ -1,52 +1,182 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+var React = require('react');
+var ReactNative = require('react-native');
+var t = require('tcomb-form-native');
 
-import React, { Component } from 'react';
-import {
+var {
   AppRegistry,
+  AsyncStorage,
   StyleSheet,
   Text,
-  View
-} from 'react-native';
+  View,
+  Image,
+  TouchableHighlight,
+  AlertIOS,
+} = ReactNative;
+ 
+var STORAGE_KEY = 'id_token';
 
-export default class ecobike extends Component {
+var Form = t.form.Form;
+
+var Person = t.struct({
+  username: t.String,
+  password: t.String
+});
+
+var options = {
+fields: {
+password: {
+password: true,
+secureTextEntry: true,
+}
+}
+};
+var ecobike = React.createClass({
+
+  async _onValueChange(item, selectedValue) {
+    try {
+      await AsyncStorage.setItem(item, selectedValue);
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message);
+    }
+  },
+ 
+  async _getProtectedQuote() {
+    var DEMO_TOKEN = await AsyncStorage.getItem(STORAGE_KEY);
+    fetch("http://localhost:3001/api//random-quote", {
+      method: "GET",
+      headers: {
+        'Authorization': 'Bearer ' + DEMO_TOKEN
+      }
+    })
+    .then((response) => response.text())
+    .then((quote) => { 
+      AlertIOS.alert(
+        "Chuck Norris Quote:", quote)
+    })
+    .done();
+  },
+
+  async _userLogout() {
+    try {
+      await AsyncStorage.removeItem(STORAGE_KEY);
+      AlertIOS.alert("Logout Success!")
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message);
+    }
+  },
+
+  _userSignup() {
+    var value = this.refs.form.getValue();
+    if (value) { // if validation fails, value will be null
+      fetch("http://localhost:3001/users", {
+        method: "POST", 
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: value.username, 
+          password: value.password, 
+        })
+      })
+      .then((response) => response.json())
+      .then((responseData) => {
+        this._onValueChange(STORAGE_KEY, responseData.id_token),
+        AlertIOS.alert(
+          "Signup Success!",
+          "Click the button to get a Chuck Norris quote!"
+        )
+      })
+      .done();
+    }
+  },
+
+  _userLogin() { 
+    var value = this.refs.form.getValue();
+    if (value) { // if validation fails, value will be null
+      fetch("http://localhost:3001/sessions/create", {
+        method: "POST", 
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: value.username, 
+          password: value.password, 
+        })
+      })
+      .then((response) => response.json())
+      .then((responseData) => {
+        AlertIOS.alert(
+          "Login Success!",
+          "Click the button to get a Chuck Norris quote!"
+        ),
+        this._onValueChange(STORAGE_KEY, responseData.id_token)
+      })
+      .done();
+    } 
+  },
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <View style={styles.row}>
+      <Image style={styles.image} source={require('./src/logo.png')}/>
+         <Text style={styles.title}>EcoBike </Text>
+      <Text style={styles.h1}>Signup/Login </Text>
+        </View>
+        <View style={styles.row}>
+          <Form
+            ref="form"
+            type={Person}
+            options={options}
+          />
+        </View>  
+        <View style={styles.row}>
+          <TouchableHighlight style={styles.button} onPress={this._userSignup} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>Signup</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={this._userLogin} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableHighlight>
+          
+        </View>
+       
       </View>
     );
   }
-}
+});
+ 
+var styles = StyleSheet.create({
+    image:{
+          alignSelf:'center'
 
-const styles = StyleSheet.create({
+    },
   container: {
-    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    marginTop: 100,
+    padding: 20,
+    backgroundColor: '#ffffff',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  title: {
+    fontSize: 30,
+    alignSelf: 'center',
+    marginBottom: 30
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  buttonText: {
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center'
+  },
+  button: {
+    height: 36,
+    backgroundColor: '#3A5F0B',
+    borderColor: '#3A5F0B',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   },
 });
 

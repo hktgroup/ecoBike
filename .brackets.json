@@ -1,5 +1,14 @@
 {
     "jscodehints.detectedExclusions": [
-        "/Users/kr3110/node/ecoBike/ionic/plugins/cordova-plugin-splashscreen/src/tizen/SplashScreenProxy.js"
+        "/Users/kr3110/node/ecoBike/ionic/plugins/cordova-plugin-splashscreen/src/tizen/SplashScreenProxy.js",
+        "/Users/kr3110/node/ecoBike/ionic/platforms/ios/build/emulator/auth0-ionic2.update.app/www/plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "/Users/kr3110/node/ecoBike/models/userModel.js",
+        "/Users/kr3110/node/ecoBike/models/totalModel.js",
+        "/Users/kr3110/node/ecoBike/models/statsModel.js",
+        "/Users/kr3110/node/ecoBike/routes/index.js",
+        "/Users/kr3110/node/ecoBike/webpack.config.js",
+        "/Users/kr3110/node/ecoBike/ionic/www/service-worker.js",
+        "/Users/kr3110/node/ecoBike/react/ecobike/index.ios.js",
+        "/Users/kr3110/node/ecoBike/Api/index.js"
     ]
 }

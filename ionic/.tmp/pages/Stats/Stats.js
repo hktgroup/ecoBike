@@ -1,0 +1,25 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+export var StatsPage = (function () {
+    function StatsPage(navCtrl) {
+        this.navCtrl = navCtrl;
+    }
+    StatsPage = __decorate([
+        Component({
+            selector: 'Stats',template:/*ion-inline-start:"/Users/kevinisaza/node/ec0/ionic/src/pages/Stats/Stats.html"*/'<!--<div class ="bar bar-header bar-light">\n  <ion-icon class= "item-center" ios="ios-bicycle" md="md-bicycle"></ion-icon>\n</div> \n\n<div class="row responsive-lg">\n  <div class="col col-lg-6"><h1>THIS IS REALLY BIG TEXT TEST</h1></div>\n<div class="col col-lg-6"><h2>THIS IS REALLY BIG TEXT TEST</h2></div>\n\n</div>\n\n<div class="row responsive-lg">\n  <div class="col col-lg-6"><h1>THIS IS REALLY BIG TEXT TEST</h1></div>\n<div class="col col-lg-6"><h2>THIS IS REALLY BIG TEXT TEST</h2></div>\n\n</div>\n<div class="row responsive-lg">\n  <div class="col col-lg-6"><h1>THIS IS REALLY BIG TEXT TEST</h1></div>\n<div class="col col-lg-6"><h2>THIS IS REALLY BIG TEXT TEST</h2></div>\n\n</div> -->\n<section id="theproject" class="project">\n    <div class="container" >\n		<div class="row">\n	    	<div class="col-md-6">\n	    	</div>\n		        TOPLEFT\n			<div class="col-md-6">\n				TOPRIGHT\n			</div>\n    	</div>\n		\n		<div class="row">\n    		<div class="col-md-6">\n       		    BOTTOMLEFT\n    		</div>\n			\n    		<div class="col-md-6">\n     		    BOTTOMRIGHT\n    		</div>    \n    	</div>\n    </div>\n</section>\n\n\n<!--<ion-card>\n  <ion-item>\n    <ion-avatar item-left>\n      <img src="http://3.bp.blogspot.com/-XPmVtxJzwYc/U75QXS5dq4I/AAAAAAAB-W4/yVm8F1mcudA/s1600/Screen+Shot+2014-07-10+at+11.26.50+.png">\n    </ion-avatar>\n    <h2>Distance</h2>\n    <p>February 18, 2017</p>\n  </ion-item>\n\n\n  <ion-card-content>\n    <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. You must go really fast</p>\n  </ion-card-content>\n\n  <ion-row>\n    <ion-col center text-right>\n      <ion-note>\n        11h ago\n      </ion-note>\n    </ion-col>\n  </ion-row>\n\n</ion-card>\n\n<ion-card>\n\n  <ion-item>\n    <ion-avatar item-left>\n      <img src="http://3.bp.blogspot.com/-XPmVtxJzwYc/U75QXS5dq4I/AAAAAAAB-W4/yVm8F1mcudA/s1600/Screen+Shot+2014-07-10+at+11.26.50+.png">\n    </ion-avatar>\n    <h2>Distance</h2>\n    <p>February 18, 2017</p>\n  </ion-item>\n\n\n  <ion-card-content>\n    <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. You must go really fast</p>\n  </ion-card-content>\n\n  <ion-row>\n    <ion-col center text-right>\n      <ion-note>\n        11h ago\n      </ion-note>\n    </ion-col>\n  </ion-row>\n\n</ion-card>\n\n<ion-card>\n\n  <ion-item>\n    <ion-avatar item-left>\n      <img src="http://3.bp.blogspot.com/-XPmVtxJzwYc/U75QXS5dq4I/AAAAAAAB-W4/yVm8F1mcudA/s1600/Screen+Shot+2014-07-10+at+11.26.50+.png">\n    </ion-avatar>\n    <h2>Distance</h2>\n    <p>February 18, 2017</p>\n  </ion-item>\n\n\n  <ion-card-content>\n    <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. You must go really fast</p>\n  </ion-card-content>\n\n  <ion-row>\n    <ion-col center text-right>\n      <ion-note>\n        11h ago\n      </ion-note>\n    </ion-col>\n  </ion-row>\n\n</ion-card>\n\n<ion-card>\n\n  <ion-item>\n    <ion-avatar item-left>\n      <img src="http://3.bp.blogspot.com/-XPmVtxJzwYc/U75QXS5dq4I/AAAAAAAB-W4/yVm8F1mcudA/s1600/Screen+Shot+2014-07-10+at+11.26.50+.png">\n    </ion-avatar>\n    <h2>Distance</h2>\n    <p>February 18, 2017</p>\n  </ion-item>\n\n\n  <ion-card-content>\n    <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. You must go really fast</p>\n  </ion-card-content>\n\n  <ion-row>\n    <ion-col center text-right>\n      <ion-note>\n        11h ago\n      </ion-note>\n    </ion-col>\n  </ion-row>\n\n</ion-card>\n\n-->\n'/*ion-inline-end:"/Users/kevinisaza/node/ec0/ionic/src/pages/Stats/Stats.html"*/
+        }), 
+        __metadata('design:paramtypes', [(typeof (_a = typeof NavController !== 'undefined' && NavController) === 'function' && _a) || Object])
+    ], StatsPage);
+    return StatsPage;
+    var _a;
+}());
+//# sourceMappingURL=Stats.js.map
