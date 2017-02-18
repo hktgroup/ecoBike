@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { PingPage } from '../ping/ping';
 import { ProfilePage } from '../profile/profile';
 import { TrackPage} from '../track/track';
+import { StatsPage} from '../Stats/Stats';
+
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
@@ -15,6 +17,7 @@ export class TabsPage {
   tab1Root: any = PingPage;
   tab2Root: any = ProfilePage;
   tab3Root: any = TrackPage;
+  tab4Root: any = StatsPage;
 
   constructor(public auth: AuthService) {}
 }

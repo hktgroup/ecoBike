@@ -4,6 +4,7 @@ import { AuthApp } from './app.component';
 import { TabsPage } from '../pages/tabs/tabs';
 import { ProfilePage } from '../pages/profile/profile';
 import { PingPage } from '../pages/ping/ping';
+import { StatsPage } from '../pages/Stats/Stats';
 import { AuthConfig, AuthHttp } from 'angular2-jwt';
 import { AuthService } from '../services/auth/auth.service';
 import { Http } from '@angular/http';
@@ -25,7 +26,8 @@ export function getAuthHttp(http) {
     ProfilePage,
     PingPage,
     TabsPage,
-    TrackPage
+    TrackPage,
+    StatsPage
   ],
   imports: [
     IonicModule.forRoot(AuthApp)
@@ -36,7 +38,8 @@ export function getAuthHttp(http) {
     ProfilePage,
     PingPage,
     TabsPage,
-    TrackPage
+    TrackPage,
+    StatsPage
   ],
   providers: [
     AuthService,
