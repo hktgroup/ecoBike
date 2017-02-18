@@ -5,7 +5,11 @@ var passport = require('passport');
 var mongoose = require('mongoose')
 var jwt = require('express-jwt');
 var jwkRsa = require('jwks-rsa');
-//
+/*
+var user=require('../models/userDataModel');
+var stats=require('../models/statsDataModel');
+
+*/
 const jwtCheck = jwt({
     // Dynamically provide a signing key based on the kid in the header and the singing keys provided by the JWKS endpoint.
     secret: jwkRsa.expressJwtSecret({
@@ -18,11 +22,19 @@ const jwtCheck = jwt({
     , issuer: `ecobik.auth0.com`
     , algorithms: ['RS256']
 });
-//
-router.use('/hi', jwtCheck, function (req, res) {});
-router.get('/', function (req, res) {});
-router.get('/', function (req, res) {});
-router.get('/', function (req, res) {});
-router.get('/', function (req, res) {});
-router.get('/', function (req, res) {});
-module.exports = router;
+router.route('/user/data').post(function (req, res) {
+            user.create({
+                userName: req.body.username
+                , userId: req.body.userId
+                , userPassword: req.body.password
+            }.function(err, data) {
+                res.send(err);
+            });
+
+            router.use('/hi', jwtCheck, function (req, res) {});
+            router.get('/', function (req, res) {});
+            router.get('/', function (req, res) {});
+            router.get('/', function (req, res) {});
+            router.get('/', function (req, res) {});
+            router.get('/', function (req, res) {});
+            module.exports = router;
