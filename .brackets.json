@@ -1,0 +1,5 @@
+{
+    "jscodehints.detectedExclusions": [
+        "/Users/kr3110/node/ecoBike/ionic/plugins/cordova-plugin-splashscreen/src/tizen/SplashScreenProxy.js"
+    ]
+}
