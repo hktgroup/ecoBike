@@ -1,8 +1,13 @@
 page-Stats {
 
- .row{
-        padding: 5000px 50px 5000px 50px;
-        margin: 5000px 50px 5000px 50px;
+.project {
+    height: auto !important;
+    min-height: 100%;
+    overflow: hidden;
+	background: white;
+	font-family: 'Open Sans', sans-serif;
+	font-style: normal;
+    font-size: 16px;
+}
 
-    }
 }
