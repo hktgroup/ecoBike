@@ -64,13 +64,15 @@ class ecobike extends Component {
     const { prevLatLng } = this.state
     return (haversine(prevLatLng, newLatLng) || 0)
   }
-
+  calcco(distance){
+    return (8.89*.001*)
+  }
   render() {
     return (
       <View style={styles.container}>
         <MapView
           style={styles.map}
-          mapType=''
+          mapType='satellite'
           showsUserLocation={true}
           followUserLocation={true}
           overlays={[{
@@ -83,7 +85,9 @@ class ecobike extends Component {
         <View style={styles.bottomBar}>
           <View style={styles.bottomBarGroup}>
             <Text style={styles.bottomBarHeader}>DISTANCE</Text>
+            <Text style={styles.bottomleft}>CO2 </Text>
             <Text style={styles.bottomBarContent}>{parseFloat(this.state.distanceTravelled).toFixed(2)} km</Text>
+            <Text style={styles.bottomleftCO}></Text
           </View>
         </View>
       </View>
@@ -136,7 +140,7 @@ const styles = StyleSheet.create({
   bottomBarHeader: {
     color: '#fff',
     fontWeight: "400",
-    textAlign: 'center'
+    textAlign: 'leftr'
   },
   bottomBarContent: {
     color: '#fff',
@@ -144,7 +148,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 10,
     color: '#19B5FE',
-    textAlign: 'center'
+    textAlign: 'left'
   },
 })
 
