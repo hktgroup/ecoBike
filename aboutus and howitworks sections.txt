@@ -1,0 +1,13 @@
+
+header: "About Us"
+
+How it all started... (in larger, bold letters... this is the backstory. )
+
+
+              		When we got accepted into the NYU Hackathon 2017, we were thrilled for the opportunity to build and share an 
+                    application idea to the NYUHACK community. As we got further into our brainstorm session for ideas on what we should build, we realized that we truly wanted to use this opportunity to create an application that will provide an immersive and interactive experience between the user and the impact they can have on their environment. One of the members on our team (Kevin Izasa) mentioned his love for cycling and the subsequent positive effects that cycling has on the environment around us. And just like that, we got the idea of ecoBike.
+
+
+header: "How it works"
+
+		ecoBike an app that provides the end-user with an interactive experience between their actions and how it can directly impact their envrionment. Our application allows the user to track the distances they travel on their bicycles and presents them with the positive impact it has on their envrionment. The user can track their journey in distance and get the amount of Carbon dioxide they prevented from being injected into the envrionment by not using a motor vehicle.
