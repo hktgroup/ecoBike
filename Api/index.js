@@ -61,6 +61,75 @@ router.route('/stats/data').post(function (req, res) {
         res.send(err);
     });
 });
+
+// SSH Tunnelling 
+var Client = require('ssh2').Client;
+
+//var conn = new Client();
+//conn.on('ready', function() {
+  //  console.log('Client :: ready');
+    //mongo connection
+    //    mongoose.connect('mongodb://localhost:27000/');
+        var db = mongoose.connection;
+        db.on('error', console.error.bind(console, 'connection error:'));
+        db.once('open', function() {
+            console.log("database connection established");
+            var users = db.collection('user');
+            var getallUsers = function (date, callback){
+                users.find({}).toArray(function(err,data){
+                    callback(data);
+                })
+            };
+            getallUsers(null, function (data){
+                console.log('data :'+  data);
+            });
+        });
+    //end of mongo connection
+}).connect({
+    host: '**.**.**.**.**',
+    port: 54.200.188.87,
+    username: 'ec2-user',
+    privateKey: key
+});
+
+var config = {
+    dstPort: 27000,
+    user: 'ec2-user',
+    host: '**.**.**.**.**',
+    privateKey: key
+};
+//
+
+var server = tunnel(config, function (error, server) {
+    if(error){
+        console.log("SSH connection error: " + error);
+    }
+    console.log('database connection initalizing');
+    mongoose.connect('mongodb://localhost:27000/');
+
+    var db = mongoose.connection;
+
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function() {
+
+        console.log("database connection established");
+
+        var users = db.collection('user');
+        var getallUsers = function (date, callback){
+            users.find({}).toArray(function(err,data){
+                callback(data);
+            })
+        };
+        getallUsers(null, function (data){
+            console.log(data);
+        });
+
+    });
+});
+
+
+
+
 //find stats data by id by GET
 router.route('/stats/data/:id').get(function (req, res) {
         stats.findById(req.params.id, function (err, data) {
@@ -120,3 +189,5 @@ router.route('/total/data/:id').get(function (req, res) {
     });
 router.use('/hi', jwtCheck, function (req, res) {});
 module.exports = router;
+
+
