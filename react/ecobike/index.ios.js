@@ -1,183 +1,152 @@
-var React = require('react');
-var ReactNative = require('react-native');
-var t = require('tcomb-form-native');
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
 
-var {
+import React, { Component } from 'react'
+import {
   AppRegistry,
-  AsyncStorage,
   StyleSheet,
-  Text,
   View,
-  Image,
-  TouchableHighlight,
-  AlertIOS,
-} = ReactNative;
- 
-var STORAGE_KEY = 'id_token';
+  Text,
+  MapView,
+  Dimensions,
+  StatusBarIOS
+} from 'react-native'
 
-var Form = t.form.Form;
+import haversine from 'haversine'
+import pick from 'lodash/pick'
 
-var Person = t.struct({
-  username: t.String,
-  password: t.String
-});
+const { width, height } = Dimensions.get('window')
 
-var options = {
-fields: {
-password: {
-password: true,
-secureTextEntry: true,
-}
-}
-};
-var ecobike = React.createClass({
+class ecobike extends Component {
 
-  async _onValueChange(item, selectedValue) {
-    try {
-      await AsyncStorage.setItem(item, selectedValue);
-    } catch (error) {
-      console.log('AsyncStorage error: ' + error.message);
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      routeCoordinates: [],
+      distanceTravelled: 0,
+      prevLatLng: {}
     }
-  },
- 
-  async _getProtectedQuote() {
-    var DEMO_TOKEN = await AsyncStorage.getItem(STORAGE_KEY);
-    fetch("http://localhost:3001/api//random-quote", {
-      method: "GET",
-      headers: {
-        'Authorization': 'Bearer ' + DEMO_TOKEN
-      }
-    })
-    .then((response) => response.text())
-    .then((quote) => { 
-      AlertIOS.alert(
-        "Chuck Norris Quote:", quote)
-    })
-    .done();
-  },
+  }
 
-  async _userLogout() {
-    try {
-      await AsyncStorage.removeItem(STORAGE_KEY);
-      AlertIOS.alert("Logout Success!")
-    } catch (error) {
-      console.log('AsyncStorage error: ' + error.message);
-    }
-  },
+  componentDidMount() {
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {},
+      (error) => alert(error.message),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    )
+    this.watchID = navigator.geolocation.watchPosition((position) => {
+      const { routeCoordinates, distanceTravelled } = this.state
+      const newLatLngs = {latitude: position.coords.latitude, longitude: position.coords.longitude }
+      const positionLatLngs = pick(position.coords, ['latitude', 'longitude'])
+      this.setState({
+        routeCoordinates: routeCoordinates.concat(positionLatLngs),
+        distanceTravelled: distanceTravelled + this.calcDistance(newLatLngs),
+        prevLatLng: newLatLngs
+      })
+    });
+  }
 
-  _userSignup() {
-    var value = this.refs.form.getValue();
-    if (value) { // if validation fails, value will be null
-      fetch("http://localhost:3001/users", {
-        method: "POST", 
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: value.username, 
-          password: value.password, 
-        })
-      })
-      .then((response) => response.json())
-      .then((responseData) => {
-        this._onValueChange(STORAGE_KEY, responseData.id_token),
-        AlertIOS.alert(
-          "Signup Success!",
-          "Click the button to get a Chuck Norris quote!"
-        )
-      })
-      .done();
-    }
-  },
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  }
 
-  _userLogin() { 
-    var value = this.refs.form.getValue();
-    if (value) { // if validation fails, value will be null
-      fetch("http://localhost:3001/sessions/create", {
-        method: "POST", 
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          username: value.username, 
-          password: value.password, 
-        })
-      })
-      .then((response) => response.json())
-      .then((responseData) => {
-        AlertIOS.alert(
-          "Login Success!",
-          "Click the button to get a Chuck Norris quote!"
-        ),
-        this._onValueChange(STORAGE_KEY, responseData.id_token)
-      })
-      .done();
-    } 
-  },
+  calcDistance(newLatLng) {
+    const { prevLatLng } = this.state
+    return (haversine(prevLatLng, newLatLng) || 0)
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.row}>
-      <Image style={styles.image} source={require('./src/logo.png')}/>
-         <Text style={styles.title}>EcoBike </Text>
-      <Text style={styles.h1}>Signup/Login </Text>
+        <MapView
+          style={styles.map}
+          mapType=''
+          showsUserLocation={true}
+          followUserLocation={true}
+          overlays={[{
+            coordinates: this.state.routeCoordinates,
+            strokeColor: '#19B5FE',
+            lineWidth: 10,
+          }]}
+        />
+        <View style={styles.navBar}><Text style={styles.navBarText}>ecoBike</Text></View>
+        <View style={styles.bottomBar}>
+          <View style={styles.bottomBarGroup}>
+            <Text style={styles.bottomBarHeader}>DISTANCE</Text>
+            <Text style={styles.bottomBarContent}>{parseFloat(this.state.distanceTravelled).toFixed(2)} km</Text>
+          </View>
         </View>
-        <View style={styles.row}>
-          <Form
-            ref="form"
-            type={Person}
-            options={options}
-          />
-        </View>  
-        <View style={styles.row}>
-          <TouchableHighlight style={styles.button} onPress={this._userSignup} underlayColor='#99d9f4'>
-            <Text style={styles.buttonText}>Signup</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.button} onPress={this._userLogin} underlayColor='#99d9f4'>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableHighlight>
-          
-        </View>
-       
       </View>
-    );
+    )
   }
-});
- 
-var styles = StyleSheet.create({
-    image:{
-          alignSelf:'center'
+}
 
-    },
+const styles = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: 'center',
-    marginTop: 100,
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  navBar: {
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    height: 64,
+    width: width,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0
+  },
+  navBarText: {
+    color: '#19B5FE',
+    fontSize: 16,
+    fontWeight: "700",
+    textAlign: 'center',
+    paddingTop: 30
+  },
+  map: {
+    flex: 0.7,
+    width: width,
+    height: height
+  },
+  bottomBar: {
+    position: 'absolute',
+    height: 100,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    width: width,
     padding: 20,
-    backgroundColor: '#ffffff',
+    flexWrap: 'wrap',
+    flexDirection: 'row'
   },
-  title: {
-    fontSize: 30,
-    alignSelf: 'center',
-    marginBottom: 30
+  bottomBarGroup: {
+    flex: 1
   },
-  buttonText: {
+  bottomBarHeader: {
+    color: '#fff',
+    fontWeight: "400",
+    textAlign: 'center'
+  },
+  bottomBarContent: {
+    color: '#fff',
+    fontWeight: "700",
     fontSize: 18,
-    color: 'white',
-    alignSelf: 'center'
+    marginTop: 10,
+    color: '#19B5FE',
+    textAlign: 'center'
   },
-  button: {
-    height: 36,
-    backgroundColor: '#3A5F0B',
-    borderColor: '#3A5F0B',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  },
-});
+})
+
 
 AppRegistry.registerComponent('ecobike', () => ecobike);

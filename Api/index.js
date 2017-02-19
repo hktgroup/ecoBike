@@ -5,6 +5,7 @@ var passport = require('passport');
 var mongoose = require('mongoose')
 var jwt = require('express-jwt');
 var jwkRsa = require('jwks-rsa');
+var passport=require('passport');
 var user = require('../models/userModel');
 var stats = require('../models/statsModel');
 var total = require('../models/totalModel');
